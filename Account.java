@@ -1,11 +1,12 @@
 
-public class Account {
+public class Account implements java.io.Serializable{
 
 	private String userName;
 	private String passWord;
 	
-	public Account(){
-		
+	public Account(String us, String pa){
+		userName = us;
+		passWord = pa;
 	}
 	
 	public String getUserName(){
@@ -14,6 +15,11 @@ public class Account {
 	
 	public String getPassWord(){
 		return passWord;
+	}
+	
+	
+	public String toString(){
+		return "Username: " + userName + " Password: " + passWord;
 	}
 	
 	
