@@ -6,24 +6,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 
-public class ServerDriver {
+public class ServerDriver {//central server
 	
+	//master list of all accounts on server, filled with record form accounts.txt
 	private static ArrayList<Account> accountList = new ArrayList<Account>();
+	//control for the main loop, is toggled to false in ServerConsole to stop the server
 	private static boolean driverRunning = true;
 	
+	//this constructor is never actuallyused
 	public ServerDriver(){
-		
-		//accountList.add(new Account());
+	
 	}
 	
 		public static void main(String[] args) throws IOException {
+			System.out.println("Server started");
 			
-			
-			//load existing accounts from file
-			
-			
+			//loads accounts from accounts.txt into accountList
 			BufferedReader br = new BufferedReader(new FileReader("accounts.txt"));
-			
 			String temp;
 			String temp2;
 			while ((temp = br.readLine()) != null) {
@@ -33,34 +32,28 @@ public class ServerDriver {
 			}
 			br.close();
 			
+			//displays number of accounts on the server on start
 			if(accountList.size() == 1){
 				System.out.println("Server contains 1 account");
 			}else{
 				System.out.println("Server contains "+ accountList.size() +" accounts");
 			}
 			
-			for(Account e: accountList){
-				System.out.println(e.toString());
-			}
-			
-			
-			
-			
-			ServerSocket listener = new ServerSocket(8080);
-			
-			System.out.println("Server started");
-
+			//starts console
 			new Thread(new ServerConsole()).start();
 			
 			
+			//creates listener serverSocket and then constantly listens for connections and hands them off to handler threads
+			//driverRunning is toggles to false in ServerConsole
+			ServerSocket listener = new ServerSocket(8080);
 			while(driverRunning){
 				new Thread(new LoginHandler(listener.accept())).start();
-				System.out.println("Tried to spawn handler");
 			}
 			
 			
 		}
 		
+		//if the account does not exist on the server, adds the account to the server
 		public static void createAccount(Account account){
 			if(verifyAccount(account) == 2){
 				accountList.add(account);
@@ -84,6 +77,7 @@ public class ServerDriver {
 			}
 		}
 		
+		//returns 0 if account matches username and password with one on the server, returns 1 if only username matches, returns 2 if username is not on the server
 		public static int verifyAccount(Account account){
 			//if username and password match return 0
 			for(Account e:accountList){
@@ -107,6 +101,7 @@ public class ServerDriver {
 			return 2;
 		}
 		
+		//removes account from the server if the exact account exists on the server
 		public void deleteAccount(Account account){
 			for(Account e: accountList){
 				if(e.equals(account)){
@@ -135,10 +130,12 @@ public class ServerDriver {
 			}
 		}
 		
+		//returns the entire accountlist
 		public static ArrayList<Account> getAccountList(){
 			return accountList;
 		}
 		
+		//sets driverRunning to false, used in ServerConsole
 		public static void stopServer(){
 			driverRunning = false;
 		}

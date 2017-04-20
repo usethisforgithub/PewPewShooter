@@ -19,38 +19,30 @@ public class LoginHandler implements Runnable{
 	public void run() {
 		
 		try {
-			System.out.println("connected to server");
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			
 			//System.out.println("got here server 0");
 			while(running){
 			String control = ((Message)in.readObject()).getText();
-			System.out.println("control: " + control);
 			Account temp = null;
 			switch(control){
 			case "LOGIN":
 				
-				out.writeChars("OKAY");
-				out.flush();
 				
-				
-				temp = (Account)in.readObject();
-				
-				
-				out.write(ServerDriver.verifyAccount(temp));
 				
 			break;
 			
 			case "NEW":
-				System.out.println("got here server 1");
+				
 				out.writeObject(new Message("OKAY"));
 				out.flush();
-				System.out.println("got here server 2");
+				
 				temp = (Account)in.readObject();
+				
 				out.writeObject(new Message(ServerDriver.verifyAccount(temp)));
 				out.flush();
-				System.out.println("got here server 3");
+				
 				if(ServerDriver.verifyAccount(temp)==2){
 					ServerDriver.createAccount(temp);
 				}
@@ -58,7 +50,6 @@ public class LoginHandler implements Runnable{
 				
 			case "EXIT":
 				running = false;
-				System.out.println("Closing connection to client");
 				break;
 			}
 		}
@@ -75,6 +66,7 @@ public class LoginHandler implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }

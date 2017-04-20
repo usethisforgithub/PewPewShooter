@@ -12,7 +12,6 @@ public class ServerConsole implements Runnable{
 	
 	public ServerConsole(){
 		running = true;
-		System.out.println("Console Started");
 	}
 	
 	@Override
@@ -47,14 +46,14 @@ public class ServerConsole implements Runnable{
 			
 			Socket socket;
 			try {
-				socket = new Socket("192.168.1.115", 8080);
+				socket = new Socket("10.9.232.77", 8080);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream innn = new ObjectInputStream(socket.getInputStream());
 				
-				out.writeObject(new Message("Exit"));
+				out.writeObject(new Message("EXIT"));
 				out.flush();
 				
-				innn.readObject();
+
 				
 				
 				
@@ -64,13 +63,13 @@ public class ServerConsole implements Runnable{
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 			
 			
 			break;
+			
+			default:
+				System.out.println("Comand does not exist for this system");
 		}
 	}
 		
