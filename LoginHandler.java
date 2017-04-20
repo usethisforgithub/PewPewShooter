@@ -49,13 +49,17 @@ public class LoginHandler implements Runnable{
 				break;
 				
 			case "EXIT":
+				out.writeObject(new Message("OKAY"));
+				out.flush();
 				running = false;
+				out.flush();
 				break;
 			}
 		}
-			
+			in.close();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
+			running = false;
 			e.printStackTrace();
 		}
 		
@@ -65,6 +69,7 @@ public class LoginHandler implements Runnable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			running = false;
 		}
 		
 	}

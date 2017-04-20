@@ -9,7 +9,7 @@ public class DummyClient {
 
 	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		Socket socket = new Socket("10.9.232.77", 8080);
+		Socket socket = new Socket("127.0.0.1", 8080);
 		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 		
@@ -55,11 +55,12 @@ public class DummyClient {
 			
 			out.writeObject(new Message("EXIT"));
 			out.flush();
+			in.readObject();
 			System.out.println("Exiting console");
 			running = false;
 		}
 	}
-		
+		innn.close();
 		
 		
 		

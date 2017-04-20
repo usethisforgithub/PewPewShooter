@@ -46,7 +46,7 @@ public class ServerConsole implements Runnable{
 			
 			Socket socket;
 			try {
-				socket = new Socket("10.9.232.77", 8080);
+				socket = new Socket("127.0.0.1", 8080);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream innn = new ObjectInputStream(socket.getInputStream());
 				
